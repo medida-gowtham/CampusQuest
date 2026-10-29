@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | CampusQuest</title>
+    <style>
+:root {
+    --maroon: #711c2a;
+    --maroon-dark: #4b1522;
+    --maroon-light: #923a49;
+    --cream: #faf5f3;
+    --white: #ffffff;
+    --pink: #f3e2e4;
+    --gold: #d4a64a;
+    --text: #302329;
+    --muted: #82747a;
+    --border: #eadde0;
+    --green: #26764c;
+    --red: #b42332;
+    --shadow: 0 8px 28px rgba(75, 21, 34, 0.07);
+}
+* {
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    margin: 0;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.5;
+}
+a {
+    color: var(--maroon);
+    text-decoration: none;
+}
+button,
+input,
+select {
+    font: inherit;
+}
+button {
+    cursor: pointer;
+}
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+}
+.muted {
+    color: var(--muted);
+}
+.eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    font-weight: 800;
+    color: var(--maroon);
+    text-transform: uppercase;
+}
+.page {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 28px;
+}
+.page-heading {
+    margin-bottom: 24px;
+}
+.page-heading h1 {
+    font-size: clamp(26px, 4vw, 36px);
+    margin: 5px 0;
+    color: var(--maroon-dark);
+}
+.page-heading p {
+    color: var(--muted);
+    margin: 5px 0;
+}
+.panel,
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+}
+.grid {
+    display: grid;
+    gap: 18px;
+}
+.grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 3px 15px rgba(75, 21, 34, 0.04);
+}
+.nav-inner {
+    max-width: 1500px;
+    min-height: 72px;
+    padding: 12px 28px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+.brand {
+    font-size: 21px;
+    font-weight: 900;
+    color: var(--maroon-dark);
+    white-space: nowrap;
+}
+.brand span {
+    color: var(--maroon-light);
+}
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+.nav-links a {
+    padding: 10px 12px;
+    color: var(--muted);
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+}
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--maroon);
+    background: var(--pink);
+}
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 700;
+}
+.gold-text {
+    color: #95670d;
+    font-weight: 800;
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 17px;
+    background: var(--maroon);
+    color: var(--white);
+    font-weight: 750;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+.btn:hover {
+    background: var(--maroon-dark);
+    transform: translateY(-1px);
+}
+.btn-secondary {
+    background: var(--pink);
+    color: var(--maroon);
+}
+.btn-secondary:hover {
+    background: #eacdd2;
+}
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--maroon);
+}
+.btn-outline:hover {
+    background: var(--pink);
+}
+.btn-danger {
+    background: #fff0f0;
+    color: var(--red);
+}
+.btn-small {
+    padding: 7px 11px;
+    font-size: 12px;
+}
+.btn-block {
+    width: 100%;
+}
+.welcome-banner {
+    padding: 30px;
+    border-radius: 18px;
+    background: linear-gradient(
+        120deg,
+        var(--maroon-dark),
+        var(--maroon)
+    );
+    color: var(--white);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+.welcome-banner h1 {
+    margin: 6px 0 10px;
+    font-size: clamp(25px, 4vw, 38px);
+}
+.welcome-banner p {
+    color: #f4dfe3;
+    max-width: 600px;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+}
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 700;
+}
+.stat-value {
+    font-size: 27px;
+    font-weight: 900;
+    margin: 4px 0;
+    color: var(--maroon-dark);
+}
+.stat-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+}
+.progress-track {
+    width: 100%;
+    height: 9px;
+    background: #eee4e6;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+.progress-fill {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: var(--maroon);
+    transition: width 0.3s ease;
+}
+.quest-list {
+    display: grid;
+    gap: 14px;
+}
+.quest-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+}
+.quest-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+.quest-title {
+    margin: 0 0 5px;
+    font-size: 17px;
+}
+.quest-description {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 5px 0 14px;
+}
+.quest-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+.tag,
+.status {
+    display: inline-flex;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: var(--pink);
+    color: var(--maroon);
+    font-size: 11px;
+    font-weight: 750;
+}
+.status-active {
+    background: #fff2d6;
+    color: #805a0a;
+}
+.status-completed {
+    background: #e1f5e8;
+    color: var(--green);
+}
+.quest-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--pink);
+    color: var(--maroon);
+    font-size: 25px;
+    font-weight: 900;
+}
+.achievement-card {
+    border: 1px solid var(--border);
+    background: var(--white);
+    border-radius: 13px;
+    padding: 18px;
+}
+.achievement-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+.locked {
+    opacity: 0.5;
+    filter: grayscale(0.8);
+}
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+}
+th,
+td {
+    text-align: left;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+th {
+    color: var(--muted);
+    background: #fcf8f8;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.shop-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.shop-icon {
+    font-size: 35px;
+}
+.shop-price {
+    color: #95670d;
+    font-weight: 900;
+}
+.auth-wrap {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(300px, 0.9fr) 1.1fr;
+    background: var(--white);
+}
+.auth-side {
+    background: linear-gradient(
+        150deg,
+        var(--maroon-dark),
+        var(--maroon)
+    );
+    color: var(--white);
+    padding: clamp(30px, 5vw, 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.auth-side h1 {
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.12;
+    margin: 15px 0;
+}
+.auth-side p {
+    color: #f4dfe3;
+    line-height: 1.8;
+}
+.auth-feature {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-top: 25px;
+}
+.auth-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 20px;
+}
+.auth-card {
+    width: 100%;
+    max-width: 430px;
+}
+.auth-card h2 {
+    font-size: 28px;
+    color: var(--maroon-dark);
+    margin: 8px 0;
+}
+.field {
+    margin: 18px 0;
+}
+.field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 750;
+    margin-bottom: 7px;
+}
+.field input,
+.field select {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid var(--border);
+    background: #fffdfd;
+    border-radius: 9px;
+    color: var(--text);
+}
+.field input:focus,
+.field select:focus {
+    outline: 2px solid #d9a7b0;
+    border-color: var(--maroon);
+}
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+}
+.auth-switch a {
+    font-weight: 800;
+}
+.error {
+    display: none;
+    padding: 11px 13px;
+    border-radius: 9px;
+    background: #fff0f0;
+    color: var(--red);
+    font-size: 13px;
+    margin: 14px 0;
+}
+.success {
+    padding: 11px 13px;
+    border-radius: 9px;
+    background: #e1f5e8;
+    color: var(--green);
+    font-size: 13px;
+    margin: 14px 0;
+}
+.empty-state {
+    padding: 35px 15px;
+    text-align: center;
+    color: var(--muted);
+}
+.empty-state .empty-icon {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+.section-heading h2 {
+    margin: 0;
+    color: var(--maroon-dark);
+    font-size: 20px;
+}
+.footer {
+    text-align: center;
+    padding: 25px;
+    color: var(--muted);
+    font-size: 12px;
+}
+@media (max-width: 1050px) {
+    .nav-inner {
+        flex-wrap: wrap;
+    }
+    .stats-grid,
+    .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 700px) {
+    .auth-wrap {
+        grid-template-columns: 1fr;
+    }
+    .auth-side {
+        padding: 30px 24px;
+    }
+    .auth-side h1 {
+        font-size: 32px;
+    }
+    .auth-feature {
+        margin-top: 15px;
+    }
+    .nav-inner {
+        padding: 14px 16px;
+        gap: 12px;
+    }
+    .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+    }
+    .nav-links a {
+        white-space: nowrap;
+    }
+    .nav-user {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .page {
+        padding: 18px 14px;
+    }
+    .stats-grid,
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    .welcome-banner {
+        padding: 22px;
+    }
+    .profile-header {
+        align-items: flex-start;
+        padding: 18px;
+    }
+    .quest-top {
+        flex-direction: column;
+    }
+    .panel,
+    .card {
+        padding: 17px;
+    }
+}
+</style>
+</head>
+<body>
+    <div id="app-nav"></div>
+    <main class="page">
+        <section class="welcome-banner">
+            <div class="eyebrow" style="color:#f0c6cd">
+                YOUR ADVENTURE
+            </div>
+            <h1>Welcome, <span id="welcome-name">Adventurer</span>! 👋</h1>
+            <p>
+                Every small step counts. Choose a quest and make
+                progress toward your goals today.
+            </p>
+            <a href="Adventure.html" class="btn"
+               style="background:white;color:#711c2a">
+                Explore quests →
+            </a>
+        </section>
+        <section class="stats-grid">
+            <article class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-label">CURRENT LEVEL</div>
+                <div class="stat-value" id="stat-level">1</div>
+                <div class="stat-subtitle">Your current rank</div>
+            </article>
+            <article class="stat-card">
+                <div class="stat-icon">✨</div>
+                <div class="stat-label">TOTAL XP</div>
+                <div class="stat-value" id="stat-xp">0</div>
+                <div class="stat-subtitle">Experience earned</div>
+            </article>
+            <article class="stat-card">
+                <div class="stat-icon">🪙</div>
+                <div class="stat-label">CAMPUS GOLD</div>
+                <div class="stat-value" id="stat-gold">0</div>
+                <div class="stat-subtitle">Available to spend</div>
+            </article>
+            <article class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-label">DAILY STREAK</div>
+                <div class="stat-value" id="stat-streak">0</div>
+                <div class="stat-subtitle">Consecutive active days</div>
+            </article>
+        </section>
+        <section class="panel" style="margin-bottom:24px">
+            <div class="section-heading">
+                <h2>Level Progress</h2>
+                <span class="tag" id="level-label">Level 1</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px">
+                <span class="muted" id="level-current">0 XP</span>
+                <span class="muted" id="level-next">100 XP to next level</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="level-progress"></div>
+            </div>
+        </section>
+        <div class="grid grid-2">
+            <section class="panel">
+                <div class="section-heading">
+                    <h2>⚔️ Active Quests</h2>
+                    <a href="Adventure.html">View all →</a>
+                </div>
+                <div id="active-quests" class="quest-list"></div>
+            </section>
+            <section class="panel">
+                <div class="section-heading">
+                    <h2>📜 Recent Activity</h2>
+                    <a href="Character.html">My profile →</a>
+                </div>
+                <div id="recent-activity"></div>
+            </section>
+        </div>
+        <section class="panel" style="margin-top:24px">
+            <div class="section-heading">
+                <h2>🏅 Achievements</h2>
+                <a href="Character.html">View achievements →</a>
+            </div>
+            <div id="dashboard-achievements"
+                 class="grid grid-3"></div>
+        </section>
+    </main>
+    <footer class="footer">
+        CampusQuest · Learn, explore and level up.
+    </footer>
+    <script>
+"use strict";
+const CQ = (() => {
+    const KEYS = {
+        accounts: "cq_accounts_v1",
+        session: "cq_session_v1",
+        quests: "cq_quests_v1"
+    };
+    const XP_PER_LEVEL = 100;
+    function read(key, fallback) {
+        try {
+            const raw = localStorage.getItem(key);
+            return raw === null ? fallback : JSON.parse(raw);
+        } catch (error) {
+            console.error("CampusQuest storage error:", error);
+            return fallback;
+        }
+    }
+    function write(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+    function getAccounts() {
+        const accounts = read(KEYS.accounts, []);
+        return Array.isArray(accounts) ? accounts : [];
+    }
+    function saveAccounts(accounts) {
+        write(KEYS.accounts, accounts);
+    }
+    function uid() {
+        if (window.crypto && crypto.randomUUID) {
+            return crypto.randomUUID();
+        }
+        return Date.now().toString(36) +
+            Math.random().toString(36).slice(2);
+    }
+    function today() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+    function normaliseEmail(email) {
+        return String(email || "").trim().toLowerCase();
+    }
+    const QUEST_CATALOGUE = [
+        {
+            id: "study-30",
+            title: "Focused Study Session",
+            description: "Study a subject without distractions for 30 minutes.",
+            category: "Study",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 20,
+            gold: 10,
+            icon: "📚"
+        },
+        {
+            id: "revise-topic",
+            title: "Revise a Topic",
+            description: "Review your notes and revise one important topic.",
+            category: "Study",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 15,
+            gold: 8,
+            icon: "📝"
+        },
+        {
+            id: "coding-problem",
+            title: "Solve a Coding Problem",
+            description: "Solve and test one programming problem.",
+            category: "Coding",
+            difficulty: "Medium",
+            period: "Daily",
+            xp: 30,
+            gold: 15,
+            icon: "💻"
+        },
+        {
+            id: "learn-concept",
+            title: "Learn a New Concept",
+            description: "Learn one new concept related to your course.",
+            category: "Learning",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 20,
+            gold: 10,
+            icon: "💡"
+        },
+        {
+            id: "read-article",
+            title: "Read a Technical Article",
+            description: "Read an article and note down three key takeaways.",
+            category: "Learning",
+            difficulty: "Medium",
+            period: "Weekly",
+            xp: 35,
+            gold: 18,
+            icon: "📖"
+        },
+        {
+            id: "exercise",
+            title: "Take a Short Break",
+            description: "Take a healthy break away from your screen.",
+            category: "Wellness",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 10,
+            gold: 5,
+            icon: "🌿"
+        },
+        {
+            id: "organise",
+            title: "Organise Your Tasks",
+            description: "Plan your important academic tasks for the day.",
+            category: "Productivity",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 15,
+            gold: 8,
+            icon: "✅"
+        },
+        {
+            id: "campus-event",
+            title: "Campus Participation",
+            description: "Participate in a college, club, or campus activity.",
+            category: "Campus",
+            difficulty: "Hard",
+            period: "Weekly",
+            xp: 50,
+            gold: 25,
+            icon: "🏫"
+        },
+        {
+            id: "weekly-goal",
+            title: "Complete a Weekly Goal",
+            description: "Finish one meaningful goal from your weekly plan.",
+            category: "Productivity",
+            difficulty: "Hard",
+            period: "Weekly",
+            xp: 50,
+            gold: 25,
+            icon: "🎯"
+        }
+    ];
+    function createAccount(name, email, password) {
+        name = String(name || "").trim();
+        email = normaliseEmail(email);
+        password = String(password || "");
+        if (name.length < 2) {
+            throw new Error("Enter a name with at least 2 characters.");
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            throw new Error("Enter a valid email address.");
+        }
+        if (password.length < 6) {
+            throw new Error("Password must contain at least 6 characters.");
+        }
+        const accounts = getAccounts();
+        if (accounts.some(a => a.email === email)) {
+            throw new Error("An account with this email already exists.");
+        }
+        const account = {
+            id: uid(),
+            name,
+            email,
+            password,
+            createdAt: new Date().toISOString(),
+            xp: 0,
+            gold: 0,
+            level: 1,
+            streak: 0,
+            lastActivityDate: null,
+            activeQuestIds: [],
+            completedQuests: [],
+            questProgress: {},
+            unlockedAchievements: [],
+            purchasedItems: [],
+            recentActivity: [],
+            avatar: "🎓"
+        };
+        accounts.push(account);
+        saveAccounts(accounts);
+        const allQuests = read(KEYS.quests, {});
+        allQuests[account.id] = {};
+        write(KEYS.quests, allQuests);
+        write(KEYS.session, account.id);
+        return account;
+    }
+    function login(email, password) {
+        email = normaliseEmail(email);
+        password = String(password || "");
+        const account = getAccounts().find(a =>
+            a.email === email && a.password === password
+        );
+        if (!account) {
+            throw new Error("Incorrect email or password.");
+        }
+        write(KEYS.session, account.id);
+        return account;
+    }
+    function logout() {
+        localStorage.removeItem(KEYS.session);
+        window.location.href = "Auth.html";
+    }
+    function currentUser() {
+        const id = read(KEYS.session, null);
+        if (!id) return null;
+        return getAccounts().find(a => a.id === id) || null;
+    }
+    function requireAuth() {
+        const user = currentUser();
+        if (!user) {
+            window.location.replace("Auth.html");
+            return null;
+        }
+        return user;
+    }
+    function updateAccount(id, updater) {
+        const accounts = getAccounts();
+        const index = accounts.findIndex(a => a.id === id);
+        if (index === -1) {
+            throw new Error("Account not found. Please log in again.");
+        }
+        const updated = updater({ ...accounts[index] });
+        accounts[index] = updated;
+        saveAccounts(accounts);
+        return updated;
+    }
+    function getQuestCatalogue() {
+        return QUEST_CATALOGUE.map(q => ({ ...q }));
+    }
+    function getQuest(id) {
+        return QUEST_CATALOGUE.find(q => q.id === id) || null;
+    }
+    function questStatus(user, questId) {
+        if (user.completedQuests.includes(questId)) {
+            return "completed";
+        }
+        if (user.activeQuestIds.includes(questId)) {
+            return "active";
+        }
+        return "available";
+    }
+    function getQuestList(user) {
+        return QUEST_CATALOGUE.map(q => ({
+            ...q,
+            status: questStatus(user, q.id)
+        }));
+    }
+    function startQuest(questId) {
+        const quest = getQuest(questId);
+        if (!quest) {
+            throw new Error("Quest not found.");
+        }
+        const user = currentUser();
+        if (!user) {
+            throw new Error("Please log in to start a quest.");
+        }
+        const status = questStatus(user, questId);
+        if (status === "completed") {
+            throw new Error("This quest has already been completed.");
+        }
+        if (status === "active") {
+            throw new Error("This quest is already in progress.");
+        }
+        const updated = updateAccount(user.id, account => {
+            account.activeQuestIds.push(questId);
+            account.questProgress[questId] = {
+                startedAt: new Date().toISOString(),
+                status: "active"
+            };
+            account.recentActivity.unshift({
+                id: uid(),
+                text: `Started: ${quest.title}`,
+                date: new Date().toISOString(),
+                type: "started"
+            });
+            account.recentActivity =
+                account.recentActivity.slice(0, 20);
+            return account;
+        });
+        return updated;
+    }
+    function calculateLevel(xp) {
+        return 1 + Math.floor(Math.max(0, xp) / XP_PER_LEVEL);
+    }
+    function checkAchievements(account) {
+        const definitions = [
+            {
+                id: "first-quest",
+                title: "First Steps",
+                description: "Complete your first quest.",
+                icon: "🌱",
+                test: a => a.completedQuests.length >= 1
+            },
+            {
+                id: "quest-5",
+                title: "Quest Explorer",
+                description: "Complete 5 quests.",
+                icon: "🧭",
+                test: a => a.completedQuests.length >= 5
+            },
+            {
+                id: "quest-10",
+                title: "Quest Champion",
+                description: "Complete 10 quests.",
+                icon: "🏆",
+                test: a => a.completedQuests.length >= 10
+            },
+            {
+                id: "xp-100",
+                title: "Century Club",
+                description: "Earn 100 XP.",
+                icon: "⭐",
+                test: a => a.xp >= 100
+            },
+            {
+                id: "xp-500",
+                title: "Rising Hero",
+                description: "Earn 500 XP.",
+                icon: "🔥",
+                test: a => a.xp >= 500
+            },
+            {
+                id: "level-5",
+                title: "High Achiever",
+                description: "Reach Level 5.",
+                icon: "👑",
+                test: a => a.level >= 5
+            }
+        ];
+        account.unlockedAchievements =
+            account.unlockedAchievements || [];
+        const newlyUnlocked = [];
+        for (const achievement of definitions) {
+            if (
+                achievement.test(account) &&
+                !account.unlockedAchievements.includes(achievement.id)
+            ) {
+                account.unlockedAchievements.push(achievement.id);
+                newlyUnlocked.push(achievement);
+            }
+        }
+        return newlyUnlocked;
+    }
+    function updateStreak(account, activityDate) {
+        const last = account.lastActivityDate;
+        if (!last) {
+            account.streak = 1;
+        } else if (last === activityDate) {
+        } else {
+            const previous = new Date(`${last}T00:00:00`);
+            const current = new Date(`${activityDate}T00:00:00`);
+            const days = Math.round(
+                (current - previous) / 86400000
+            );
+            account.streak = days === 1
+                ? (account.streak || 0) + 1
+                : 1;
+        }
+        account.lastActivityDate = activityDate;
+    }
+    function completeQuest(questId) {
+        const quest = getQuest(questId);
+        const user = currentUser();
+        if (!user) {
+            throw new Error("Please log in to complete a quest.");
+        }
+        if (!quest) {
+            throw new Error("Quest not found.");
+        }
+        if (user.completedQuests.includes(questId)) {
+            throw new Error("Rewards for this quest have already been claimed.");
+        }
+        if (!user.activeQuestIds.includes(questId)) {
+            throw new Error("Start this quest before completing it.");
+        }
+        const completedAt = new Date().toISOString();
+        const activityDate = today();
+        let newlyUnlocked = [];
+        const updated = updateAccount(user.id, account => {
+            if (account.completedQuests.includes(questId)) {
+                throw new Error("This quest has already been rewarded.");
+            }
+            if (!account.activeQuestIds.includes(questId)) {
+                throw new Error("This quest is not active.");
+            }
+            account.activeQuestIds =
+                account.activeQuestIds.filter(id => id !== questId);
+            account.completedQuests.push(questId);
+            account.questProgress[questId] = {
+                ...(account.questProgress[questId] || {}),
+                status: "completed",
+                completedAt,
+                rewardGranted: true
+            };
+            account.xp += quest.xp;
+            account.gold += quest.gold;
+            account.level = calculateLevel(account.xp);
+            updateStreak(account, activityDate);
+            account.recentActivity.unshift({
+                id: uid(),
+                text: `Completed: ${quest.title}`,
+                date: completedAt,
+                type: "completed",
+                xp: quest.xp,
+                gold: quest.gold
+            });
+            account.recentActivity =
+                account.recentActivity.slice(0, 20);
+            newlyUnlocked = checkAchievements(account);
+            return account;
+        });
+        return {
+            account: updated,
+            quest,
+            newlyUnlocked
+        };
+    }
+    const SHOP_ITEMS = [
+        {
+            id: "avatar-leaf",
+            title: "Leaf Avatar",
+            description: "A fresh nature-inspired avatar.",
+            icon: "🌿",
+            price: 30
+        },
+        {
+            id: "avatar-star",
+            title: "Star Avatar",
+            description: "Show your bright side.",
+            icon: "🌟",
+            price: 50
+        },
+        {
+            id: "avatar-crown",
+            title: "Royal Crown",
+            description: "A crown for your character.",
+            icon: "👑",
+            price: 100
+        },
+        {
+            id: "avatar-robot",
+            title: "Tech Robot",
+            description: "A robot-inspired profile item.",
+            icon: "🤖",
+            price: 75
+        },
+        {
+            id: "avatar-dragon",
+            title: "Dragon Badge",
+            description: "A fantasy-inspired collection item.",
+            icon: "🐉",
+            price: 150
+        },
+        {
+            id: "avatar-crystal",
+            title: "Crystal Trophy",
+            description: "A special trophy-room collectible.",
+            icon: "💎",
+            price: 200
+        }
+    ];
+    function getShopItems() {
+        return SHOP_ITEMS.map(item => ({ ...item }));
+    }
+    function buyItem(itemId) {
+        const item = SHOP_ITEMS.find(i => i.id === itemId);
+        const user = currentUser();
+        if (!user) {
+            throw new Error("Please log in first.");
+        }
+        if (!item) {
+            throw new Error("Shop item not found.");
+        }
+        if (user.purchasedItems.includes(itemId)) {
+            throw new Error("You already own this item.");
+        }
+        if (user.gold < item.price) {
+            throw new Error("Not enough Gold. Complete more quests to earn Gold.");
+        }
+        return updateAccount(user.id, account => {
+            if (account.purchasedItems.includes(itemId)) {
+                throw new Error("You already own this item.");
+            }
+            if (account.gold < item.price) {
+                throw new Error("Not enough Gold.");
+            }
+            account.gold -= item.price;
+            account.purchasedItems.push(itemId);
+            account.recentActivity.unshift({
+                id: uid(),
+                text: `Purchased: ${item.title}`,
+                date: new Date().toISOString(),
+                type: "purchase"
+            });
+            account.recentActivity =
+                account.recentActivity.slice(0, 20);
+            return account;
+        });
+    }
+    function equipItem(itemId) {
+        const item = SHOP_ITEMS.find(i => i.id === itemId);
+        const user = currentUser();
+        if (!user || !item) {
+            throw new Error("Account or item not found.");
+        }
+        if (!user.purchasedItems.includes(itemId)) {
+            throw new Error("Purchase this item before equipping it.");
+        }
+        return updateAccount(user.id, account => {
+            account.avatar = item.icon;
+            account.equippedItem = itemId;
+            return account;
+        });
+    }
+    const NAV_LINKS = [
+        { label: "Dashboard", href: "Dashboard.html", key: "dashboard" },
+        { label: "Adventure", href: "Adventure.html", key: "adventure" },
+        { label: "Leaderboard", href: "Leaderboard.html", key: "leaderboard" },
+        { label: "Rewards", href: "Rewards.html", key: "rewards" },
+        { label: "Character", href: "Character.html", key: "character" }
+    ];
+    function renderNav(activePage) {
+        const user = currentUser();
+        const nav = document.getElementById("app-nav");
+        if (!nav || !user) return;
+        nav.innerHTML = `
+            <header class="topbar">
+                <div class="nav-inner">
+                    <a class="brand" href="Dashboard.html">
+                        Campus<span>Quest</span>
+                    </a>
+                    <nav class="nav-links" aria-label="Main navigation">
+                        ${NAV_LINKS.map(link => `
+                            <a
+                                href="${link.href}"
+                                class="${link.key === activePage ? "active" : ""}"
+                                ${link.key === activePage
+                                    ? 'aria-current="page"' : ""}
+                            >${link.label}</a>
+                        `).join("")}
+                    </nav>
+                    <div class="nav-user">
+                        <span class="gold-text">
+                            🪙 <span id="nav-gold">${user.gold}</span> Gold
+                        </span>
+                        <span>${escapeHTML(user.name)}</span>
+                        <button class="btn btn-outline btn-small"
+                            id="logout-btn" type="button">
+                            Log out
+                        </button>
+                    </div>
+                </div>
+            </header>
+        `;
+        document.getElementById("logout-btn")
+            ?.addEventListener("click", logout);
+    }
+    function updateNav() {
+        const user = currentUser();
+        const gold = document.getElementById("nav-gold");
+        if (user && gold) {
+            gold.textContent = user.gold;
+        }
+    }
+    function notify(message, type = "success") {
+        let box = document.getElementById("cq-notice");
+        if (!box) {
+            box = document.createElement("div");
+            box.id = "cq-notice";
+            Object.assign(box.style, {
+                position: "fixed",
+                right: "20px",
+                bottom: "20px",
+                zIndex: "9999",
+                maxWidth: "min(400px, calc(100vw - 40px))",
+                padding: "14px 18px",
+                borderRadius: "12px",
+                boxShadow: "0 8px 25px rgba(0,0,0,.15)",
+                fontSize: "14px",
+                fontWeight: "700"
+            });
+            document.body.appendChild(box);
+        }
+        box.textContent = message;
+        box.style.background = type === "error" ? "#fff0f0" : "#e1f5e8";
+        box.style.color = type === "error" ? "#b42332" : "#26764c";
+        box.style.border = type === "error"
+            ? "1px solid #f0b6bb"
+            : "1px solid #a9dfba";
+        box.hidden = false;
+    }
+    function showError(element, message) {
+        if (!element) return;
+        element.textContent = message;
+        element.style.display = "block";
+    }
+    function hideError(element) {
+        if (!element) return;
+        element.textContent = "";
+        element.style.display = "none";
+    }
+    function formatDate(date) {
+        if (!date) return "—";
+        return new Date(date).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        });
+    }
+    function formatDateTime(date) {
+        if (!date) return "—";
+        return new Date(date).toLocaleString(undefined, {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        });
+    }
+    function getLeaderboard() {
+        return getAccounts()
+            .map(a => ({
+                id: a.id,
+                name: a.name,
+                xp: a.xp || 0,
+                level: a.level || 1,
+                completed: (a.completedQuests || []).length
+            }))
+            .sort((a, b) => b.xp - a.xp || a.name.localeCompare(b.name));
+    }
+    function getAchievements() {
+        return [
+            {
+                id: "first-quest",
+                title: "First Steps",
+                description: "Complete your first quest.",
+                icon: "🌱"
+            },
+            {
+                id: "quest-5",
+                title: "Quest Explorer",
+                description: "Complete 5 quests.",
+                icon: "🧭"
+            },
+            {
+                id: "quest-10",
+                title: "Quest Champion",
+                description: "Complete 10 quests.",
+                icon: "🏆"
+            },
+            {
+                id: "xp-100",
+                title: "Century Club",
+                description: "Earn 100 XP.",
+                icon: "⭐"
+            },
+            {
+                id: "xp-500",
+                title: "Rising Hero",
+                description: "Earn 500 XP.",
+                icon: "🔥"
+            },
+            {
+                id: "level-5",
+                title: "High Achiever",
+                description: "Reach Level 5.",
+                icon: "👑"
+            }
+        ];
+    }
+    function getLevelProgress(user) {
+        const currentLevelXP = user.xp % XP_PER_LEVEL;
+        return {
+            currentLevelXP,
+            nextLevelXP: XP_PER_LEVEL,
+            percentage: currentLevelXP / XP_PER_LEVEL * 100,
+            remaining: XP_PER_LEVEL - currentLevelXP
+        };
+    }
+    return {
+        createAccount,
+        login,
+        logout,
+        currentUser,
+        requireAuth,
+        updateAccount,
+        getQuestCatalogue,
+        getQuest,
+        getQuestList,
+        questStatus,
+        startQuest,
+        completeQuest,
+        calculateLevel,
+        checkAchievements,
+        getShopItems,
+        buyItem,
+        equipItem,
+        renderNav,
+        updateNav,
+        notify,
+        showError,
+        hideError,
+        escapeHTML,
+        formatDate,
+        formatDateTime,
+        getLeaderboard,
+        getAchievements,
+        getLevelProgress
+    };
+})();
+window.CQ = CQ;
+</script>
+    <script>
+        const user = CQ.requireAuth();
+        if (user) {
+            CQ.renderNav("dashboard");
+            renderDashboard();
+        }
+        function renderDashboard() {
+            const account = CQ.currentUser();
+            if (!account) return;
+            document.getElementById("welcome-name").textContent =
+                account.name;
+            document.getElementById("stat-level").textContent =
+                account.level;
+            document.getElementById("stat-xp").textContent =
+                account.xp;
+            document.getElementById("stat-gold").textContent =
+                account.gold;
+            document.getElementById("stat-streak").textContent =
+                account.streak || 0;
+            const progress = CQ.getLevelProgress(account);
+            document.getElementById("level-label").textContent =
+                `Level ${account.level}`;
+            document.getElementById("level-current").textContent =
+                `${progress.currentLevelXP} / ${progress.nextLevelXP} XP`;
+            document.getElementById("level-next").textContent =
+                `${progress.remaining} XP to next level`;
+            document.getElementById("level-progress").style.width =
+                `${progress.percentage}%`;
+            renderActiveQuests(account);
+            renderRecentActivity(account);
+            renderAchievements(account);
+            CQ.updateNav();
+        }
+        function renderActiveQuests(account) {
+            const container = document.getElementById("active-quests");
+            const quests = CQ.getQuestList(account)
+                .filter(q => q.status === "active");
+            if (!quests.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🧭</div>
+                        <strong>No active quests yet</strong>
+                        <p>Choose a quest to begin your journey.</p>
+                        <a class="btn" href="Adventure.html">Explore quests</a>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = quests.map(q => `
+                <article class="quest-card">
+                    <div class="quest-top">
+                        <div>
+                            <h3 class="quest-title">
+                                ${q.icon} ${CQ.escapeHTML(q.title)}
+                            </h3>
+                            <p class="quest-description">
+                                ${CQ.escapeHTML(q.description)}
+                            </p>
+                        </div>
+                        <span class="status status-active">
+                            In Progress
+                        </span>
+                    </div>
+                    <div class="quest-meta">
+                        <span class="tag">✨ ${q.xp} XP</span>
+                        <span class="tag">🪙 ${q.gold} Gold</span>
+                    </div>
+                    <button class="btn btn-block"
+                        data-complete="${q.id}">
+                        Complete Quest
+                    </button>
+                </article>
+            `).join("");
+            container.querySelectorAll("[data-complete]")
+                .forEach(button => {
+                    button.addEventListener("click", () => {
+                        try {
+                            const result = CQ.completeQuest(
+                                button.dataset.complete
+                            );
+                            CQ.notify(
+                                `Quest completed! +${result.quest.xp} XP and +${result.quest.gold} Gold`
+                            );
+                            renderDashboard();
+                        } catch (error) {
+                            CQ.notify(error.message, "error");
+                        }
+                    });
+                });
+        }
+        function renderRecentActivity(account) {
+            const container =
+                document.getElementById("recent-activity");
+            const activities = account.recentActivity || [];
+            if (!activities.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📜</div>
+                        <strong>Your journey starts here</strong>
+                        <p>Quest activity will appear here.</p>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = activities.slice(0, 8).map(a => `
+                <div style="
+                    padding:12px 0;
+                    border-bottom:1px solid var(--border);
+                    display:flex;
+                    justify-content:space-between;
+                    gap:12px;
+                ">
+                    <div>
+                        <div style="font-size:13px;font-weight:700">
+                            ${CQ.escapeHTML(a.text)}
+                        </div>
+                        <div class="muted" style="font-size:11px">
+                            ${CQ.formatDateTime(a.date)}
+                        </div>
+                    </div>
+                    <div style="text-align:right;white-space:nowrap">
+                        ${a.xp ? `<div style="color:var(--maroon);font-size:12px">+${a.xp} XP</div>` : ""}
+                        ${a.gold ? `<div class="gold-text" style="font-size:12px">+${a.gold} Gold</div>` : ""}
+                    </div>
+                </div>
+            `).join("");
+        }
+        function renderAchievements(account) {
+            const container = document.getElementById(
+                "dashboard-achievements"
+            );
+            const definitions = CQ.getAchievements();
+            const unlocked = account.unlockedAchievements || [];
+            const visible = definitions.filter(a =>
+                unlocked.includes(a.id)
+            );
+            if (!visible.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🏅</div>
+                        <strong>No achievements unlocked</strong>
+                        <p>Complete your first quest to earn a badge.</p>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = visible.map(a => `
+                <article class="achievement-card">
+                    <div class="achievement-icon">${a.icon}</div>
+                    <strong>${CQ.escapeHTML(a.title)}</strong>
+                    <p class="muted" style="font-size:12px">
+                        ${CQ.escapeHTML(a.description)}
+                    </p>
+                    <span class="status status-completed">Unlocked</span>
+                </article>
+            `).join("");
+        }
+    </script>
+</body>
+</html>

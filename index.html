@@ -1,0 +1,1435 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>CampusQuest — Login or Register</title>
+        <style>
+            :root {
+                --maroon: #711c2a;
+                --maroon-dark: #4b1522;
+                --maroon-light: #923a49;
+                --cream: #faf5f3;
+                --white: #ffffff;
+                --pink: #f3e2e4;
+                --gold: #d4a64a;
+                --text: #302329;
+                --muted: #82747a;
+                --border: #eadde0;
+                --green: #26764c;
+                --red: #b42332;
+                --shadow: 0 8px 28px rgba(75, 21, 34, 0.07);
+            }
+            * {
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                margin: 0;
+                font-family: Inter, "Segoe UI", Arial, sans-serif;
+                background: var(--cream);
+                color: var(--text);
+                line-height: 1.5;
+            }
+            a {
+                color: var(--maroon);
+                text-decoration: none;
+            }
+            button,
+            input,
+            select {
+                font: inherit;
+            }
+            button {
+                cursor: pointer;
+            }
+            button:disabled {
+                cursor: not-allowed;
+                opacity: 0.55;
+            }
+            button:focus-visible,
+            a:focus-visible,
+            input:focus-visible {
+                outline: 3px solid var(--gold);
+                outline-offset: 3px;
+            }
+            .muted {
+                color: var(--muted);
+            }
+            .eyebrow {
+                font-size: 11px;
+                letter-spacing: 1.8px;
+                font-weight: 800;
+                color: var(--maroon);
+                text-transform: uppercase;
+            }
+            .page {
+                max-width: 1440px;
+                margin: 0 auto;
+                padding: 28px;
+            }
+            .page-heading {
+                margin-bottom: 24px;
+            }
+            .page-heading h1 {
+                font-size: clamp(26px, 4vw, 36px);
+                margin: 5px 0;
+                color: var(--maroon-dark);
+            }
+            .page-heading p {
+                color: var(--muted);
+                margin: 5px 0;
+            }
+            .panel,
+            .card {
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                padding: 22px;
+                box-shadow: var(--shadow);
+            }
+            .grid {
+                display: grid;
+                gap: 18px;
+            }
+            .grid-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .grid-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            .grid-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+            .topbar {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: var(--white);
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 3px 15px rgba(75, 21, 34, 0.04);
+            }
+            .nav-inner {
+                max-width: 1500px;
+                min-height: 72px;
+                padding: 12px 28px;
+                margin: auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 20px;
+            }
+            .brand {
+                font-size: 21px;
+                font-weight: 900;
+                color: var(--maroon-dark);
+                white-space: nowrap;
+            }
+            .brand span {
+                color: var(--maroon-light);
+            }
+            .nav-links {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                flex-wrap: wrap;
+            }
+            .nav-links a {
+                padding: 10px 12px;
+                color: var(--muted);
+                border-radius: 9px;
+                font-size: 13px;
+                font-weight: 700;
+            }
+            .nav-links a:hover,
+            .nav-links a.active {
+                color: var(--maroon);
+                background: var(--pink);
+            }
+            .nav-user {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-size: 13px;
+                font-weight: 700;
+            }
+            .gold-text {
+                color: #95670d;
+                font-weight: 800;
+            }
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                border: 0;
+                border-radius: 9px;
+                padding: 11px 17px;
+                background: var(--maroon);
+                color: var(--white);
+                font-weight: 750;
+                font-size: 13px;
+                transition: 0.2s ease;
+            }
+            .btn:hover {
+                background: var(--maroon-dark);
+                transform: translateY(-1px);
+            }
+            .btn-secondary {
+                background: var(--pink);
+                color: var(--maroon);
+            }
+            .btn-secondary:hover {
+                background: #eacdd2;
+            }
+            .btn-outline {
+                background: transparent;
+                border: 1px solid var(--border);
+                color: var(--maroon);
+            }
+            .btn-outline:hover {
+                background: var(--pink);
+            }
+            .btn-danger {
+                background: #fff0f0;
+                color: var(--red);
+            }
+            .btn-small {
+                padding: 7px 11px;
+                font-size: 12px;
+            }
+            .btn-block {
+                width: 100%;
+            }
+            .welcome-banner {
+                padding: 30px;
+                border-radius: 18px;
+                background: linear-gradient(
+                    120deg,
+                    var(--maroon-dark),
+                    var(--maroon)
+                );
+                color: var(--white);
+                margin-bottom: 24px;
+                position: relative;
+                overflow: hidden;
+            }
+            .welcome-banner h1 {
+                margin: 6px 0 10px;
+                font-size: clamp(25px, 4vw, 38px);
+            }
+            .welcome-banner p {
+                color: #f4dfe3;
+                max-width: 600px;
+            }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+            .stat-card {
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                padding: 20px;
+            }
+            .stat-icon {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            .stat-label {
+                font-size: 12px;
+                color: var(--muted);
+                font-weight: 700;
+            }
+            .stat-value {
+                font-size: 27px;
+                font-weight: 900;
+                margin: 4px 0;
+                color: var(--maroon-dark);
+            }
+            .stat-subtitle {
+                font-size: 11px;
+                color: var(--muted);
+            }
+            .progress-track {
+                width: 100%;
+                height: 9px;
+                background: #eee4e6;
+                border-radius: 20px;
+                overflow: hidden;
+                margin: 10px 0;
+            }
+            .progress-fill {
+                height: 100%;
+                width: 0;
+                border-radius: inherit;
+                background: var(--maroon);
+                transition: width 0.3s ease;
+            }
+            .quest-list {
+                display: grid;
+                gap: 14px;
+            }
+            .quest-card {
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                padding: 20px;
+            }
+            .quest-top {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 15px;
+            }
+            .quest-title {
+                margin: 0 0 5px;
+                font-size: 17px;
+            }
+            .quest-description {
+                font-size: 13px;
+                color: var(--muted);
+                margin: 5px 0 14px;
+            }
+            .quest-meta {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-bottom: 14px;
+            }
+            .tag,
+            .status {
+                display: inline-flex;
+                padding: 5px 9px;
+                border-radius: 20px;
+                background: var(--pink);
+                color: var(--maroon);
+                font-size: 11px;
+                font-weight: 750;
+            }
+            .status-active {
+                background: #fff2d6;
+                color: #805a0a;
+            }
+            .status-completed {
+                background: #e1f5e8;
+                color: var(--green);
+            }
+            .quest-actions {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+            .profile-header {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                padding: 25px;
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                margin-bottom: 20px;
+            }
+            .avatar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 68px;
+                height: 68px;
+                flex-shrink: 0;
+                border-radius: 50%;
+                background: var(--pink);
+                color: var(--maroon);
+                font-size: 25px;
+                font-weight: 900;
+            }
+            .achievement-card {
+                border: 1px solid var(--border);
+                background: var(--white);
+                border-radius: 13px;
+                padding: 18px;
+            }
+            .achievement-icon {
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+            .locked {
+                opacity: 0.5;
+                filter: grayscale(0.8);
+            }
+            .table-wrap {
+                width: 100%;
+                overflow-x: auto;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background: var(--white);
+            }
+            th,
+            td {
+                text-align: left;
+                padding: 14px 12px;
+                border-bottom: 1px solid var(--border);
+                font-size: 13px;
+            }
+            th {
+                color: var(--muted);
+                background: #fcf8f8;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .shop-card {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .shop-icon {
+                font-size: 35px;
+            }
+            .shop-price {
+                color: #95670d;
+                font-weight: 900;
+            }
+            .auth-wrap {
+                min-height: 100vh;
+                display: grid;
+                grid-template-columns: minmax(300px, 0.9fr) 1.1fr;
+                background: var(--white);
+            }
+            .auth-side {
+                background: linear-gradient(
+                    150deg,
+                    var(--maroon-dark),
+                    var(--maroon)
+                );
+                color: var(--white);
+                padding: clamp(30px, 5vw, 70px);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .auth-side h1 {
+                font-size: clamp(32px, 4vw, 48px);
+                line-height: 1.12;
+                margin: 15px 0;
+            }
+            .auth-side p {
+                color: #f4dfe3;
+                line-height: 1.8;
+            }
+            .auth-feature {
+                display: flex;
+                gap: 14px;
+                align-items: center;
+                margin-top: 25px;
+            }
+            .auth-main {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 35px 20px;
+            }
+            .auth-card {
+                width: 100%;
+                max-width: 430px;
+            }
+            .auth-card h2 {
+                font-size: 28px;
+                color: var(--maroon-dark);
+                margin: 8px 0;
+            }
+            .field {
+                margin: 18px 0;
+            }
+            .field label {
+                display: block;
+                font-size: 13px;
+                font-weight: 750;
+                margin-bottom: 7px;
+            }
+            .field input,
+            .field select {
+                width: 100%;
+                padding: 12px 13px;
+                border: 1px solid var(--border);
+                background: #fffdfd;
+                border-radius: 9px;
+                color: var(--text);
+            }
+            .field input:focus,
+            .field select:focus {
+                outline: 2px solid #d9a7b0;
+                border-color: var(--maroon);
+            }
+            .auth-switch {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 13px;
+                color: var(--muted);
+            }
+            .auth-switch a {
+                font-weight: 800;
+            }
+            .error {
+                display: none;
+                padding: 11px 13px;
+                border-radius: 9px;
+                background: #fff0f0;
+                color: var(--red);
+                font-size: 13px;
+                margin: 14px 0;
+            }
+            .success {
+                padding: 11px 13px;
+                border-radius: 9px;
+                background: #e1f5e8;
+                color: var(--green);
+                font-size: 13px;
+                margin: 14px 0;
+            }
+            .empty-state {
+                padding: 35px 15px;
+                text-align: center;
+                color: var(--muted);
+            }
+            .empty-state .empty-icon {
+                font-size: 35px;
+                margin-bottom: 8px;
+            }
+            .section-heading {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                flex-wrap: wrap;
+                margin-bottom: 15px;
+            }
+            .section-heading h2 {
+                margin: 0;
+                color: var(--maroon-dark);
+                font-size: 20px;
+            }
+            .footer {
+                text-align: center;
+                padding: 25px;
+                color: var(--muted);
+                font-size: 12px;
+            }
+            @media (max-width: 1050px) {
+                .nav-inner {
+                    flex-wrap: wrap;
+                }
+                .stats-grid,
+                .grid-4 {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+                .grid-3 {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+            }
+            @media (max-width: 700px) {
+                .auth-wrap {
+                    grid-template-columns: 1fr;
+                }
+                .auth-side {
+                    padding: 30px 24px;
+                }
+                .auth-side h1 {
+                    font-size: 32px;
+                }
+                .auth-feature {
+                    margin-top: 15px;
+                }
+                .nav-inner {
+                    padding: 14px 16px;
+                    gap: 12px;
+                }
+                .nav-links {
+                    width: 100%;
+                    overflow-x: auto;
+                    flex-wrap: nowrap;
+                    padding-bottom: 4px;
+                }
+                .nav-links a {
+                    white-space: nowrap;
+                }
+                .nav-user {
+                    width: 100%;
+                    justify-content: space-between;
+                }
+                .page {
+                    padding: 18px 14px;
+                }
+                .stats-grid,
+                .grid-2,
+                .grid-3,
+                .grid-4 {
+                    grid-template-columns: 1fr;
+                }
+                .welcome-banner {
+                    padding: 22px;
+                }
+                .profile-header {
+                    align-items: flex-start;
+                    padding: 18px;
+                }
+                .quest-top {
+                    flex-direction: column;
+                }
+                .panel,
+                .card {
+                    padding: 17px;
+                }
+            }
+        </style>
+        <style>
+            .auth-tabs{display:flex;gap:8px;padding:5px;background:#f7ecee;border-radius:12px;margin-bottom:24px}
+            .auth-tab{flex:1;border:0;border-radius:9px;padding:10px 14px;background:transparent;color:var(--muted);font-weight:800}
+            .auth-tab.active{background:#fff;color:var(--maroon);box-shadow:0 2px 8px rgba(75,21,34,.08)}
+            .auth-panel[hidden]{display:none!important}
+            .auth-card{max-height:calc(100vh - 48px);overflow:auto;padding-right:8px}
+            @media(max-width:760px){.auth-wrap{grid-template-columns:1fr!important}.auth-side{padding:28px!important}.auth-side .eyebrow{margin-top:22px!important}.auth-side h1{font-size:30px}.auth-main{padding:24px 16px!important}.auth-card{max-height:none}}
+        </style>
+</head>
+    <body>
+  <div class="auth-wrap">
+    <section class="auth-side">
+      <a class="brand" style="color:white" href="Auth.html">Campus<span>Quest</span></a>
+      <div class="eyebrow" style="color:#f4c9cf;margin-top:60px">YOUR JOURNEY STARTS HERE</div>
+      <h1 id="side-title">Turn your goals into an adventure.</h1>
+      <p id="side-copy">Build better study habits, complete quests, earn XP and virtual Gold, and celebrate every step forward.</p>
+      <div class="auth-feature"><span style="font-size:28px">⚡</span><div><strong id="feature-one-title">Every step counts</strong><div id="feature-one-copy" style="font-size:13px;color:#f3dfe2;margin-top:4px">Track quests, levels and achievements.</div></div></div>
+      <div class="auth-feature"><span style="font-size:28px">🏆</span><div><strong id="feature-two-title">Start from level one</strong><div id="feature-two-copy" style="font-size:13px;color:#f3dfe2;margin-top:4px">New accounts begin with 0 XP and 0 Gold.</div></div></div>
+    </section>
+    <main class="auth-main"><section class="auth-card">
+      <div class="auth-tabs" role="tablist" aria-label="Account access">
+        <button type="button" class="auth-tab active" id="login-tab" role="tab" aria-selected="true" data-auth-view="login">Log In</button>
+        <button type="button" class="auth-tab" id="register-tab" role="tab" aria-selected="false" data-auth-view="register">Register</button>
+      </div>
+      <section class="auth-panel" id="login-panel" aria-labelledby="login-heading">
+  <div class="eyebrow">WELCOME, ADVENTURER</div>
+  <h2 id="login-heading">Log in to CampusQuest</h2>
+  <p class="muted" style="font-size:13px;line-height:1.6">Continue your campus journey and keep your progress moving.</p>
+  <div id="error" class="error" role="alert"></div>
+  <form id="login-form">
+    <div class="field"><label for="login-email">Email address</label><input id="login-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+    <div class="field"><label for="login-password">Password</label><input id="login-password" name="password" type="password" required autocomplete="current-password" placeholder="Enter your password"></div>
+    <button class="btn btn-block" type="submit">Log In →</button>
+  </form>
+  <div class="auth-switch">New to CampusQuest? <a href="#register" data-auth-view="register">Create an account</a></div>
+  <p class="muted" style="font-size:11px;line-height:1.5;margin-top:24px">Prototype note: accounts are stored in this browser for demonstration only. Do not use a real or reused password.</p>
+</section>
+      <section class="auth-panel" id="register-panel" aria-labelledby="register-heading" hidden>
+  <div class="eyebrow">NEW ADVENTURER</div>
+  <h2 id="register-heading">Create your account</h2>
+  <p class="muted">Your CampusQuest journey begins here.</p>
+  <div id="register-error" class="error" role="alert"></div>
+  <form id="register-form">
+    <div class="field"><label for="register-name">Your name</label><input type="text" id="register-name" name="name" placeholder="Enter your name" autocomplete="name" minlength="2" maxlength="60" required></div>
+    <div class="field"><label for="register-email">Email address</label><input type="email" id="register-email" name="email" placeholder="you@example.com" autocomplete="email" required></div>
+    <div class="field"><label for="register-password">Create password</label><input type="password" id="register-password" name="password" placeholder="At least 6 characters" autocomplete="new-password" minlength="6" required></div>
+    <div class="field"><label for="confirm-password">Confirm password</label><input type="password" id="confirm-password" name="confirm-password" placeholder="Enter the password again" autocomplete="new-password" minlength="6" required></div>
+    <button class="btn btn-block" type="submit">Create account →</button>
+  </form>
+  <div class="auth-switch">Already registered? <a href="#login" data-auth-view="login">Log in</a></div>
+</section>
+    </section></main>
+  </div>
+  <script>
+"use strict";
+const CQ = (() => {
+    const KEYS = {
+        accounts: "cq_accounts_v1",
+        session: "cq_session_v1",
+        quests: "cq_quests_v1"
+    };
+    const XP_PER_LEVEL = 100;
+    function read(key, fallback) {
+        try {
+            const raw = localStorage.getItem(key);
+            return raw === null ? fallback : JSON.parse(raw);
+        } catch (error) {
+            console.error("CampusQuest storage error:", error);
+            return fallback;
+        }
+    }
+    function write(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+    function getAccounts() {
+        const accounts = read(KEYS.accounts, []);
+        return Array.isArray(accounts) ? accounts : [];
+    }
+    function saveAccounts(accounts) {
+        write(KEYS.accounts, accounts);
+    }
+    function uid() {
+        if (window.crypto && crypto.randomUUID) {
+            return crypto.randomUUID();
+        }
+        return Date.now().toString(36) +
+            Math.random().toString(36).slice(2);
+    }
+    function today() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+    function normaliseEmail(email) {
+        return String(email || "").trim().toLowerCase();
+    }
+    const QUEST_CATALOGUE = [
+        {
+            id: "study-30",
+            title: "Focused Study Session",
+            description: "Study a subject without distractions for 30 minutes.",
+            category: "Study",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 20,
+            gold: 10,
+            icon: "📚"
+        },
+        {
+            id: "revise-topic",
+            title: "Revise a Topic",
+            description: "Review your notes and revise one important topic.",
+            category: "Study",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 15,
+            gold: 8,
+            icon: "📝"
+        },
+        {
+            id: "coding-problem",
+            title: "Solve a Coding Problem",
+            description: "Solve and test one programming problem.",
+            category: "Coding",
+            difficulty: "Medium",
+            period: "Daily",
+            xp: 30,
+            gold: 15,
+            icon: "💻"
+        },
+        {
+            id: "learn-concept",
+            title: "Learn a New Concept",
+            description: "Learn one new concept related to your course.",
+            category: "Learning",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 20,
+            gold: 10,
+            icon: "💡"
+        },
+        {
+            id: "read-article",
+            title: "Read a Technical Article",
+            description: "Read an article and note down three key takeaways.",
+            category: "Learning",
+            difficulty: "Medium",
+            period: "Weekly",
+            xp: 35,
+            gold: 18,
+            icon: "📖"
+        },
+        {
+            id: "exercise",
+            title: "Take a Short Break",
+            description: "Take a healthy break away from your screen.",
+            category: "Wellness",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 10,
+            gold: 5,
+            icon: "🌿"
+        },
+        {
+            id: "organise",
+            title: "Organise Your Tasks",
+            description: "Plan your important academic tasks for the day.",
+            category: "Productivity",
+            difficulty: "Easy",
+            period: "Daily",
+            xp: 15,
+            gold: 8,
+            icon: "✅"
+        },
+        {
+            id: "campus-event",
+            title: "Campus Participation",
+            description: "Participate in a college, club, or campus activity.",
+            category: "Campus",
+            difficulty: "Hard",
+            period: "Weekly",
+            xp: 50,
+            gold: 25,
+            icon: "🏫"
+        },
+        {
+            id: "weekly-goal",
+            title: "Complete a Weekly Goal",
+            description: "Finish one meaningful goal from your weekly plan.",
+            category: "Productivity",
+            difficulty: "Hard",
+            period: "Weekly",
+            xp: 50,
+            gold: 25,
+            icon: "🎯"
+        }
+    ];
+    function createAccount(name, email, password) {
+        name = String(name || "").trim();
+        email = normaliseEmail(email);
+        password = String(password || "");
+        if (name.length < 2) {
+            throw new Error("Enter a name with at least 2 characters.");
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            throw new Error("Enter a valid email address.");
+        }
+        if (password.length < 6) {
+            throw new Error("Password must contain at least 6 characters.");
+        }
+        const accounts = getAccounts();
+        if (accounts.some(a => a.email === email)) {
+            throw new Error("An account with this email already exists.");
+        }
+        const account = {
+            id: uid(),
+            name,
+            email,
+            password,
+            createdAt: new Date().toISOString(),
+            xp: 0,
+            gold: 0,
+            level: 1,
+            streak: 0,
+            lastActivityDate: null,
+            activeQuestIds: [],
+            completedQuests: [],
+            questProgress: {},
+            unlockedAchievements: [],
+            purchasedItems: [],
+            recentActivity: [],
+            avatar: "🎓"
+        };
+        accounts.push(account);
+        saveAccounts(accounts);
+        const allQuests = read(KEYS.quests, {});
+        allQuests[account.id] = {};
+        write(KEYS.quests, allQuests);
+        write(KEYS.session, account.id);
+        return account;
+    }
+    function login(email, password) {
+        email = normaliseEmail(email);
+        password = String(password || "");
+        const account = getAccounts().find(a =>
+            a.email === email && a.password === password
+        );
+        if (!account) {
+            throw new Error("Incorrect email or password.");
+        }
+        write(KEYS.session, account.id);
+        return account;
+    }
+    function logout() {
+        localStorage.removeItem(KEYS.session);
+        window.location.href = "Auth.html";
+    }
+    function currentUser() {
+        const id = read(KEYS.session, null);
+        if (!id) return null;
+        return getAccounts().find(a => a.id === id) || null;
+    }
+    function requireAuth() {
+        const user = currentUser();
+        if (!user) {
+            window.location.replace("Auth.html");
+            return null;
+        }
+        return user;
+    }
+    function updateAccount(id, updater) {
+        const accounts = getAccounts();
+        const index = accounts.findIndex(a => a.id === id);
+        if (index === -1) {
+            throw new Error("Account not found. Please log in again.");
+        }
+        const updated = updater({ ...accounts[index] });
+        accounts[index] = updated;
+        saveAccounts(accounts);
+        return updated;
+    }
+    function getQuestCatalogue() {
+        return QUEST_CATALOGUE.map(q => ({ ...q }));
+    }
+    function getQuest(id) {
+        return QUEST_CATALOGUE.find(q => q.id === id) || null;
+    }
+    function questStatus(user, questId) {
+        if (user.completedQuests.includes(questId)) {
+            return "completed";
+        }
+        if (user.activeQuestIds.includes(questId)) {
+            return "active";
+        }
+        return "available";
+    }
+    function getQuestList(user) {
+        return QUEST_CATALOGUE.map(q => ({
+            ...q,
+            status: questStatus(user, q.id)
+        }));
+    }
+    function startQuest(questId) {
+        const quest = getQuest(questId);
+        if (!quest) {
+            throw new Error("Quest not found.");
+        }
+        const user = currentUser();
+        if (!user) {
+            throw new Error("Please log in to start a quest.");
+        }
+        const status = questStatus(user, questId);
+        if (status === "completed") {
+            throw new Error("This quest has already been completed.");
+        }
+        if (status === "active") {
+            throw new Error("This quest is already in progress.");
+        }
+        const updated = updateAccount(user.id, account => {
+            account.activeQuestIds.push(questId);
+            account.questProgress[questId] = {
+                startedAt: new Date().toISOString(),
+                status: "active"
+            };
+            account.recentActivity.unshift({
+                id: uid(),
+                text: `Started: ${quest.title}`,
+                date: new Date().toISOString(),
+                type: "started"
+            });
+            account.recentActivity =
+                account.recentActivity.slice(0, 20);
+            return account;
+        });
+        return updated;
+    }
+    function calculateLevel(xp) {
+        return 1 + Math.floor(Math.max(0, xp) / XP_PER_LEVEL);
+    }
+    function checkAchievements(account) {
+        const definitions = [
+            {
+                id: "first-quest",
+                title: "First Steps",
+                description: "Complete your first quest.",
+                icon: "🌱",
+                test: a => a.completedQuests.length >= 1
+            },
+            {
+                id: "quest-5",
+                title: "Quest Explorer",
+                description: "Complete 5 quests.",
+                icon: "🧭",
+                test: a => a.completedQuests.length >= 5
+            },
+            {
+                id: "quest-10",
+                title: "Quest Champion",
+                description: "Complete 10 quests.",
+                icon: "🏆",
+                test: a => a.completedQuests.length >= 10
+            },
+            {
+                id: "xp-100",
+                title: "Century Club",
+                description: "Earn 100 XP.",
+                icon: "⭐",
+                test: a => a.xp >= 100
+            },
+            {
+                id: "xp-500",
+                title: "Rising Hero",
+                description: "Earn 500 XP.",
+                icon: "🔥",
+                test: a => a.xp >= 500
+            },
+            {
+                id: "level-5",
+                title: "High Achiever",
+                description: "Reach Level 5.",
+                icon: "👑",
+                test: a => a.level >= 5
+            }
+        ];
+        account.unlockedAchievements =
+            account.unlockedAchievements || [];
+        const newlyUnlocked = [];
+        for (const achievement of definitions) {
+            if (
+                achievement.test(account) &&
+                !account.unlockedAchievements.includes(achievement.id)
+            ) {
+                account.unlockedAchievements.push(achievement.id);
+                newlyUnlocked.push(achievement);
+            }
+        }
+        return newlyUnlocked;
+    }
+    function updateStreak(account, activityDate) {
+        const last = account.lastActivityDate;
+        if (!last) {
+            account.streak = 1;
+        } else if (last === activityDate) {
+        } else {
+            const previous = new Date(`${last}T00:00:00`);
+            const current = new Date(`${activityDate}T00:00:00`);
+            const days = Math.round(
+                (current - previous) / 86400000
+            );
+            account.streak = days === 1
+                ? (account.streak || 0) + 1
+                : 1;
+        }
+        account.lastActivityDate = activityDate;
+    }
+    function completeQuest(questId) {
+        const quest = getQuest(questId);
+        const user = currentUser();
+        if (!user) {
+            throw new Error("Please log in to complete a quest.");
+        }
+        if (!quest) {
+            throw new Error("Quest not found.");
+        }
+        if (user.completedQuests.includes(questId)) {
+            throw new Error("Rewards for this quest have already been claimed.");
+        }
+        if (!user.activeQuestIds.includes(questId)) {
+            throw new Error("Start this quest before completing it.");
+        }
+        const completedAt = new Date().toISOString();
+        const activityDate = today();
+        let newlyUnlocked = [];
+        const updated = updateAccount(user.id, account => {
+            if (account.completedQuests.includes(questId)) {
+                throw new Error("This quest has already been rewarded.");
+            }
+            if (!account.activeQuestIds.includes(questId)) {
+                throw new Error("This quest is not active.");
+            }
+            account.activeQuestIds =
+                account.activeQuestIds.filter(id => id !== questId);
+            account.completedQuests.push(questId);
+            account.questProgress[questId] = {
+                ...(account.questProgress[questId] || {}),
+                status: "completed",
+                completedAt,
+                rewardGranted: true
+            };
+            account.xp += quest.xp;
+            account.gold += quest.gold;
+            account.level = calculateLevel(account.xp);
+            updateStreak(account, activityDate);
+            account.recentActivity.unshift({
+                id: uid(),
+                text: `Completed: ${quest.title}`,
+                date: completedAt,
+                type: "completed",
+                xp: quest.xp,
+                gold: quest.gold
+            });
+            account.recentActivity =
+                account.recentActivity.slice(0, 20);
+            newlyUnlocked = checkAchievements(account);
+            return account;
+        });
+        return {
+            account: updated,
+            quest,
+            newlyUnlocked
+        };
+    }
+    const SHOP_ITEMS = [
+        {
+            id: "avatar-leaf",
+            title: "Leaf Avatar",
+            description: "A fresh nature-inspired avatar.",
+            icon: "🌿",
+            price: 30
+        },
+        {
+            id: "avatar-star",
+            title: "Star Avatar",
+            description: "Show your bright side.",
+            icon: "🌟",
+            price: 50
+        },
+        {
+            id: "avatar-crown",
+            title: "Royal Crown",
+            description: "A crown for your character.",
+            icon: "👑",
+            price: 100
+        },
+        {
+            id: "avatar-robot",
+            title: "Tech Robot",
+            description: "A robot-inspired profile item.",
+            icon: "🤖",
+            price: 75
+        },
+        {
+            id: "avatar-dragon",
+            title: "Dragon Badge",
+            description: "A fantasy-inspired collection item.",
+            icon: "🐉",
+            price: 150
+        },
+        {
+            id: "avatar-crystal",
+            title: "Crystal Trophy",
+            description: "A special trophy-room collectible.",
+            icon: "💎",
+            price: 200
+        }
+    ];
+    function getShopItems() {
+        return SHOP_ITEMS.map(item => ({ ...item }));
+    }
+    function buyItem(itemId) {
+        const item = SHOP_ITEMS.find(i => i.id === itemId);
+        const user = currentUser();
+        if (!user) {
+            throw new Error("Please log in first.");
+        }
+        if (!item) {
+            throw new Error("Shop item not found.");
+        }
+        if (user.purchasedItems.includes(itemId)) {
+            throw new Error("You already own this item.");
+        }
+        if (user.gold < item.price) {
+            throw new Error("Not enough Gold. Complete more quests to earn Gold.");
+        }
+        return updateAccount(user.id, account => {
+            if (account.purchasedItems.includes(itemId)) {
+                throw new Error("You already own this item.");
+            }
+            if (account.gold < item.price) {
+                throw new Error("Not enough Gold.");
+            }
+            account.gold -= item.price;
+            account.purchasedItems.push(itemId);
+            account.recentActivity.unshift({
+                id: uid(),
+                text: `Purchased: ${item.title}`,
+                date: new Date().toISOString(),
+                type: "purchase"
+            });
+            account.recentActivity =
+                account.recentActivity.slice(0, 20);
+            return account;
+        });
+    }
+    function equipItem(itemId) {
+        const item = SHOP_ITEMS.find(i => i.id === itemId);
+        const user = currentUser();
+        if (!user || !item) {
+            throw new Error("Account or item not found.");
+        }
+        if (!user.purchasedItems.includes(itemId)) {
+            throw new Error("Purchase this item before equipping it.");
+        }
+        return updateAccount(user.id, account => {
+            account.avatar = item.icon;
+            account.equippedItem = itemId;
+            return account;
+        });
+    }
+    const NAV_LINKS = [
+        { label: "Dashboard", href: "Dashboard.html", key: "dashboard" },
+        { label: "Adventure", href: "Adventure.html", key: "adventure" },
+        { label: "Leaderboard", href: "Leaderboard.html", key: "leaderboard" },
+        { label: "Rewards", href: "Rewards.html", key: "rewards" },
+        { label: "Character", href: "Character.html", key: "character" }
+    ];
+    function renderNav(activePage) {
+        const user = currentUser();
+        const nav = document.getElementById("app-nav");
+        if (!nav || !user) return;
+        nav.innerHTML = `
+            <header class="topbar">
+                <div class="nav-inner">
+                    <a class="brand" href="Dashboard.html">
+                        Campus<span>Quest</span>
+                    </a>
+                    <nav class="nav-links" aria-label="Main navigation">
+                        ${NAV_LINKS.map(link => `
+                            <a
+                                href="${link.href}"
+                                class="${link.key === activePage ? "active" : ""}"
+                                ${link.key === activePage
+                                    ? 'aria-current="page"' : ""}
+                            >${link.label}</a>
+                        `).join("")}
+                    </nav>
+                    <div class="nav-user">
+                        <span class="gold-text">
+                            🪙 <span id="nav-gold">${user.gold}</span> Gold
+                        </span>
+                        <span>${escapeHTML(user.name)}</span>
+                        <button class="btn btn-outline btn-small"
+                            id="logout-btn" type="button">
+                            Log out
+                        </button>
+                    </div>
+                </div>
+            </header>
+        `;
+        document.getElementById("logout-btn")
+            ?.addEventListener("click", logout);
+    }
+    function updateNav() {
+        const user = currentUser();
+        const gold = document.getElementById("nav-gold");
+        if (user && gold) {
+            gold.textContent = user.gold;
+        }
+    }
+    function notify(message, type = "success") {
+        let box = document.getElementById("cq-notice");
+        if (!box) {
+            box = document.createElement("div");
+            box.id = "cq-notice";
+            Object.assign(box.style, {
+                position: "fixed",
+                right: "20px",
+                bottom: "20px",
+                zIndex: "9999",
+                maxWidth: "min(400px, calc(100vw - 40px))",
+                padding: "14px 18px",
+                borderRadius: "12px",
+                boxShadow: "0 8px 25px rgba(0,0,0,.15)",
+                fontSize: "14px",
+                fontWeight: "700"
+            });
+            document.body.appendChild(box);
+        }
+        box.textContent = message;
+        box.style.background = type === "error" ? "#fff0f0" : "#e1f5e8";
+        box.style.color = type === "error" ? "#b42332" : "#26764c";
+        box.style.border = type === "error"
+            ? "1px solid #f0b6bb"
+            : "1px solid #a9dfba";
+        box.hidden = false;
+    }
+    function showError(element, message) {
+        if (!element) return;
+        element.textContent = message;
+        element.style.display = "block";
+    }
+    function hideError(element) {
+        if (!element) return;
+        element.textContent = "";
+        element.style.display = "none";
+    }
+    function formatDate(date) {
+        if (!date) return "—";
+        return new Date(date).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        });
+    }
+    function formatDateTime(date) {
+        if (!date) return "—";
+        return new Date(date).toLocaleString(undefined, {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        });
+    }
+    function getLeaderboard() {
+        return getAccounts()
+            .map(a => ({
+                id: a.id,
+                name: a.name,
+                xp: a.xp || 0,
+                level: a.level || 1,
+                completed: (a.completedQuests || []).length
+            }))
+            .sort((a, b) => b.xp - a.xp || a.name.localeCompare(b.name));
+    }
+    function getAchievements() {
+        return [
+            {
+                id: "first-quest",
+                title: "First Steps",
+                description: "Complete your first quest.",
+                icon: "🌱"
+            },
+            {
+                id: "quest-5",
+                title: "Quest Explorer",
+                description: "Complete 5 quests.",
+                icon: "🧭"
+            },
+            {
+                id: "quest-10",
+                title: "Quest Champion",
+                description: "Complete 10 quests.",
+                icon: "🏆"
+            },
+            {
+                id: "xp-100",
+                title: "Century Club",
+                description: "Earn 100 XP.",
+                icon: "⭐"
+            },
+            {
+                id: "xp-500",
+                title: "Rising Hero",
+                description: "Earn 500 XP.",
+                icon: "🔥"
+            },
+            {
+                id: "level-5",
+                title: "High Achiever",
+                description: "Reach Level 5.",
+                icon: "👑"
+            }
+        ];
+    }
+    function getLevelProgress(user) {
+        const currentLevelXP = user.xp % XP_PER_LEVEL;
+        return {
+            currentLevelXP,
+            nextLevelXP: XP_PER_LEVEL,
+            percentage: currentLevelXP / XP_PER_LEVEL * 100,
+            remaining: XP_PER_LEVEL - currentLevelXP
+        };
+    }
+    return {
+        createAccount,
+        login,
+        logout,
+        currentUser,
+        requireAuth,
+        updateAccount,
+        getQuestCatalogue,
+        getQuest,
+        getQuestList,
+        questStatus,
+        startQuest,
+        completeQuest,
+        calculateLevel,
+        checkAchievements,
+        getShopItems,
+        buyItem,
+        equipItem,
+        renderNav,
+        updateNav,
+        notify,
+        showError,
+        hideError,
+        escapeHTML,
+        formatDate,
+        formatDateTime,
+        getLeaderboard,
+        getAchievements,
+        getLevelProgress
+    };
+})();
+window.CQ = CQ;
+</script>
+  <script>
+  (function () {
+    const loginPanel = document.getElementById('login-panel');
+    const registerPanel = document.getElementById('register-panel');
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    const viewText = {
+      login: {
+        title: 'Turn your goals into an adventure.',
+        copy: 'Build better study habits, complete quests, earn XP and virtual Gold, and celebrate every step forward.',
+        oneTitle: 'Every step counts', oneCopy: 'Track quests, levels and achievements.',
+        twoTitle: 'Start from level one', twoCopy: 'New accounts begin with 0 XP and 0 Gold.'
+      },
+      register: {
+        title: 'Start your adventure.',
+        copy: 'Create your character, explore campus quests, and build productive habits at your own pace.',
+        oneTitle: 'A fresh beginning', oneCopy: 'Start at 0 XP and 0 Gold.',
+        twoTitle: 'Progress that belongs to you', twoCopy: 'Your quests and achievements are separate.'
+      }
+    };
+    function setView(view, updateHash) {
+      const isRegister = view === 'register';
+      loginPanel.hidden = isRegister;
+      registerPanel.hidden = !isRegister;
+      loginTab.classList.toggle('active', !isRegister);
+      registerTab.classList.toggle('active', isRegister);
+      loginTab.setAttribute('aria-selected', String(!isRegister));
+      registerTab.setAttribute('aria-selected', String(isRegister));
+      const t = viewText[view];
+      document.getElementById('side-title').textContent = t.title;
+      document.getElementById('side-copy').textContent = t.copy;
+      document.getElementById('feature-one-title').textContent = t.oneTitle;
+      document.getElementById('feature-one-copy').textContent = t.oneCopy;
+      document.getElementById('feature-two-title').textContent = t.twoTitle;
+      document.getElementById('feature-two-copy').textContent = t.twoCopy;
+      if (updateHash) history.replaceState(null, '', '#' + view);
+    }
+    document.querySelectorAll('[data-auth-view]').forEach(el => el.addEventListener('click', e => {
+      e.preventDefault(); setView(el.dataset.authView, true);
+    }));
+    setView(location.hash === '#register' ? 'register' : 'login', false);
+    if (CQ.currentUser()) { window.location.replace('Dashboard.html'); return; }
+    document.getElementById('login-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const errorBox = document.getElementById('error'); CQ.hideError(errorBox);
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const password = document.getElementById('login-password').value;
+      try { CQ.login(email, password); window.location.href = 'Dashboard.html'; }
+      catch (error) { CQ.showError(errorBox, error.message || 'Email or password is incorrect.'); }
+    });
+    document.getElementById('register-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const errorBox = document.getElementById('register-error'); CQ.hideError(errorBox);
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value.trim().toLowerCase();
+      const password = document.getElementById('register-password').value;
+      const confirmation = document.getElementById('confirm-password').value;
+      if (password !== confirmation) { CQ.showError(errorBox, 'The passwords do not match.'); return; }
+      try {
+        const account = CQ.createAccount(name, email, password);
+        if (account.xp !== 0 || account.gold !== 0 || account.level !== 1 || account.completedQuests.length !== 0) throw new Error('Could not initialize a fresh account.');
+        window.location.href = 'Dashboard.html';
+      } catch (error) { CQ.showError(errorBox, error.message || 'Could not create account.'); }
+    });
+  })();
+  </script>
+</body>
+</html>
